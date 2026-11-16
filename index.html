@@ -1,1 +1,284 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BADINAN CHAT - چاتی بادینان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@400;600;700&display=swap');
+        * { font-family: 'Changa', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .dark .glass-dark { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col transition-colors duration-300" id="bodyTheme">
+
+    <!-- Admin Broadcast Banner -->
+    <div id="broadcastBanner" class="bg-indigo-600 text-white px-4 py-2 text-center text-sm font-semibold flex items-center justify-center gap-2 shadow-md">
+        <i class="fa-solid fa-bullhorn animate-bounce"></i>
+        <span id="broadcastText">ڕاگەهاندنا ڕێڤەبەری (DEV HAVAL): ب خیر هاتن بۆ چاتی بادینان! بۆ هەر پشکداریەکێ پەیوەندێ ب 07503225189 بکەن.</span>
+    </div>
+
+    <!-- Header -->
+    <header class="glass py-3 px-6 flex justify-between items-center shadow-lg border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-rose-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                <i class="fa-solid fa-comments text-white text-lg"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide bg-gradient-to-r from-indigo-400 to-rose-400 bg-clip-text text-transparent">BADINAN CHAT</h1>
+                <p class="text-xs text-slate-400">DEV HAVAL Platform</p>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center gap-2">
+            <select id="langSelect" onchange="changeLanguage()" class="bg-slate-900 text-xs border border-slate-700 rounded-lg px-2 py-1.5 focus:outline-none">
+                <option value="ku">کوردی</option>
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+            <button onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 transition">
+                <i id="themeIcon" class="fa-solid fa-moon text-indigo-400 text-sm"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col justify-center">
+        
+        <!-- Setup Screen -->
+        <div id="setupScreen" class="glass glass-dark rounded-3xl p-6 shadow-2xl border border-slate-800/80 space-y-6">
+            <div class="text-center space-y-1">
+                <h2 id="txtWelcome" class="text-2xl font-bold">دەستپێکرنا چاتی</h2>
+                <p id="txtSub" class="text-xs text-slate-400">ڕەگەز و ناڤێ خۆ هەلبژێرە داکو کەسەکی بدۆزی</p>
+            </div>
+
+            <div>
+                <label id="lblNick" class="text-xs text-slate-400 mb-1.5 block">ناڤێ خۆ یان نکار (بەری)</label>
+                <input type="text" id="usernameInput" placeholder="ناڤێ خۆ لێرە بنڤیسە..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition">
+            </div>
+
+            <div>
+                <label id="lblGender" class="text-xs text-slate-400 mb-1.5 block">ڕەگەز</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setGender('male')" id="maleBtn" class="gender-btn py-3 rounded-xl border border-slate-700 bg-slate-900 text-sm font-semibold flex items-center justify-center gap-2 transition">
+                        <i class="fa-solid fa-mars text-blue-400"></i> <span id="txtMale">کۆر</span>
+                    </button>
+                    <button onclick="setGender('female')" id="femaleBtn" class="gender-btn py-3 rounded-xl border border-slate-700 bg-slate-900 text-sm font-semibold flex items-center justify-center gap-2 transition">
+                        <i class="fa-solid fa-venus text-pink-400"></i> <span id="txtFemale">کچ</span>
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <label id="lblColor" class="text-xs text-slate-400 mb-1.5 block">ڕەنگێ تایبەت (Accent Color)</label>
+                <div class="flex gap-3 justify-center">
+                    <div onclick="setAccent('#6366f1')" class="w-8 h-8 rounded-full bg-indigo-500 cursor-pointer border-2 border-white/20 hover:scale-110 transition"></div>
+                    <div onclick="setAccent('#f43f5e')" class="w-8 h-8 rounded-full bg-rose-500 cursor-pointer border-2 border-white/20 hover:scale-110 transition"></div>
+                    <div onclick="setAccent('#10b981')" class="w-8 h-8 rounded-full bg-emerald-500 cursor-pointer border-2 border-white/20 hover:scale-110 transition"></div>
+                    <div onclick="setAccent('#f59e0b')" class="w-8 h-8 rounded-full bg-amber-500 cursor-pointer border-2 border-white/20 hover:scale-110 transition"></div>
+                </div>
+            </div>
+
+            <button onclick="startMatching()" id="startBtn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-rose-600 text-white font-bold shadow-lg shadow-indigo-500/25 hover:opacity-90 transition active:scale-95">
+                <i class="fa-solid fa-bolt ml-2"></i> گەڕان ل دوو کەسەکی
+            </button>
+        </div>
+
+        <!-- Searching Screen -->
+        <div id="searchScreen" class="hidden glass glass-dark rounded-3xl p-10 text-center space-y-6 shadow-2xl">
+            <div class="relative w-20 h-20 mx-auto">
+                <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20 animate-ping"></div>
+                <div class="absolute inset-0 rounded-full border-4 border-indigo-500 border-t-transparent animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i class="fa-solid fa-user-secret text-indigo-400 text-xl"></i>
+                </div>
+            </div>
+            <div>
+                <h3 id="txtSearching" class="text-lg font-bold">ئەم ل دوو کەسەکی دگەڕیین...</h3>
+                <p class="text-xs text-slate-400 mt-1">هیڤیدەرمە چەند چرکەیان بوەستە</p>
+            </div>
+            <button onclick="cancelSearch()" class="px-6 py-2 rounded-xl bg-slate-800 text-xs text-slate-300 hover:bg-slate-700 transition">هەلوەشاندن</button>
+        </div>
+
+        <!-- Chat Screen -->
+        <div id="chatScreen" class="hidden glass glass-dark rounded-3xl flex flex-col h-[75vh] shadow-2xl border border-slate-800 overflow-hidden">
+            <div class="p-4 bg-slate-900/60 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
+                            <i class="fa-solid fa-user text-slate-400"></i>
+                        </div>
+                        <div class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900"></div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="partnerName" class="font-bold text-sm">کەسێ بەرامبەر</span>
+                            <span id="vipBadge" class="hidden bg-amber-500/20 text-amber-400 text-[10px] px-2 py-0.5 rounded-full font-bold border border-amber-500/30">VIP 👑</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] text-slate-400">
+                            <span id="chatTimer" class="text-indigo-400 font-mono">00:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="reportUser()" title="ڕاپۆرت" class="p-2 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition">
+                        <i class="fa-solid fa-triangle-exclamation text-xs"></i>
+                    </button>
+                    <button onclick="nextChat()" id="btnNext" class="px-3 py-1.5 rounded-xl bg-slate-800 text-xs font-semibold hover:bg-slate-700 transition">ژێڤەبوون</button>
+                </div>
+            </div>
+
+            <div id="messagesContainer" class="flex-1 p-4 overflow-y-auto space-y-3 flex flex-col">
+                <div class="text-center my-2">
+                    <span id="txtConnectedMsg" class="bg-slate-900/80 border border-slate-800 text-[10px] text-slate-400 px-3 py-1 rounded-full">تە پێکڤە گرێدان چێکر! ب خێر بایی بێن.</span>
+                </div>
+            </div>
+
+            <div class="px-3 py-1.5 bg-slate-900/40 border-t border-slate-800/60 flex gap-2 overflow-x-auto text-sm">
+                <button onclick="addEmoji('😊')" class="hover:scale-125 transition">😊</button>
+                <button onclick="addEmoji('❤️')" class="hover:scale-125 transition">❤️</button>
+                <button onclick="addEmoji('🔥')" class="hover:scale-125 transition">🔥</button>
+                <button onclick="addEmoji('👍')" class="hover:scale-125 transition">👍</button>
+                <button onclick="addEmoji('😎')" class="hover:scale-125 transition">😎</button>
+                <button onclick="addEmoji('😂')" class="hover:scale-125 transition">😂</button>
+                <button onclick="addEmoji('👑')" class="hover:scale-125 transition">👑</button>
+            </div>
+
+            <div class="p-3 bg-slate-900/80 border-t border-slate-800 flex items-center gap-2">
+                <input type="text" id="messageInput" onkeypress="checkEnter(event)" placeholder="پەیاما خۆ لێرە بنڤیسە..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 transition">
+                <button onclick="sendMessage()" id="sendBtn" class="p-2.5 rounded-xl bg-indigo-600 text-white hover:opacity-90 transition shadow-md shadow-indigo-600/30">
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-3 text-center text-xs text-slate-500">
+        Developed with ❤️ by <span class="text-indigo-400 font-bold">DEV HAVAL</span>
+    </footer>
+
+    <script>
+        let selectedGender = 'male';
+        let accentColor = '#6366f1';
+        let currentLang = 'ku';
+        let timerInterval = null;
+        let seconds = 0;
+
+        const translations = {
+            ku: { welcome: "دەستپێکرنا چاتی", sub: "ڕەگەز و ناڤێ خۆ هەلبژێرە داکو کەسەکی بدۆزی", nick: "ناڤێ خۆ یان نکار (بەری)", gender: "ڕەگەز", male: "کۆر", female: "کچ", color: "ڕەنگێ تایبەت", start: "گەڕان ل دوو کەسەکی", searching: "ئەم ل دوو کەسەکی دگەڕیین...", next: "ژێڤەبوون", placeholder: "پەیاما خۆ لێرە بنڤیسە...", connected: "تە پێکڤە گرێدان چێکر! ب خێر بایی بێن." },
+            ar: { welcome: "بدء الدردشة", sub: "اختر جنسك واسمك للعثور على شخص ما", nick: "اسمك المستعار", gender: "الجنس", male: "ذكر", female: "أنثى", color: "اللون المخصص", start: "البحث عن شخص", searching: "جاري البحث عن شخص...", next: "التالي", placeholder: "اكتب رسالتك هنا...", connected: "تم الاتصال بنجاح! أهلاً بك." },
+            en: { welcome: "Start Chat", sub: "Choose your gender and nickname to find someone", nick: "Nickname", gender: "Gender", male: "Male", female: "Female", color: "Accent Color", start: "Find Someone", searching: "Searching for someone...", next: "Next", placeholder: "Type your message here...", connected: "Connected successfully! Welcome." }
+        };
+
+        function setGender(g) {
+            selectedGender = g;
+            document.getElementById('maleBtn').style.borderColor = g === 'male' ? accentColor : '#334155';
+            document.getElementById('femaleBtn').style.borderColor = g === 'female' ? accentColor : '#334155';
+        }
+
+        function setAccent(color) {
+            accentColor = color;
+            document.getElementById('startBtn').style.background = color;
+        }
+
+        function toggleTheme() {
+            const body = document.getElementById('bodyTheme');
+            body.classList.toggle('dark');
+            const icon = document.getElementById('themeIcon');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        }
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = translations[currentLang];
+            document.getElementById('txtWelcome').innerText = t.welcome;
+            document.getElementById('txtSub').innerText = t.sub;
+            document.getElementById('lblNick').innerText = t.nick;
+            document.getElementById('lblGender').innerText = t.gender;
+            document.getElementById('txtMale').innerText = t.male;
+            document.getElementById('txtFemale').innerText = t.female;
+            document.getElementById('lblColor').innerText = t.color;
+            document.getElementById('startBtn').innerHTML = `<i class="fa-solid fa-bolt ml-2"></i> ${t.start}`;
+            document.getElementById('txtSearching').innerText = t.searching;
+            document.getElementById('btnNext').innerText = t.next;
+            document.getElementById('messageInput').placeholder = t.placeholder;
+            document.getElementById('txtConnectedMsg').innerText = t.connected;
+        }
+
+        function startMatching() {
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('searchScreen').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('searchScreen').classList.add('hidden');
+                document.getElementById('chatScreen').classList.remove('hidden');
+                startTimer();
+                simulatePartnerReply();
+            }, 3000);
+        }
+
+        function cancelSearch() {
+            document.getElementById('searchScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+
+        function startTimer() {
+            seconds = 0;
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                seconds++;
+                let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                let s = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('chatTimer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function addEmoji(emoji) {
+            document.getElementById('messageInput').value += emoji;
+        }
+
+        function checkEnter(e) {
+            if(e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            let input = document.getElementById('messageInput');
+            let text = input.value.trim();
+            if(!text) return;
+
+            let container = document.getElementById('messagesContainer');
+            container.innerHTML += `<div class="flex justify-end"><div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-sm bg-indigo-600 text-white rounded-bl-none shadow-md">${text}</div></div>`;
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function simulatePartnerReply() {
+            setTimeout(() => {
+                let container = document.getElementById('messagesContainer');
+                let replies = ["سلاڤ هڤال، چەوانی؟", "ب خێر بایی!", "تو ژ کیڤە هەڤال؟", "ژۆرا من گەلەک خوشە"];
+                let rand = replies[Math.floor(Math.random() * replies.length)];
+                container.innerHTML += `<div class="flex justify-start"><div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-sm bg-slate-800 text-slate-200 rounded-br-none border border-slate-700 shadow-md">${rand}</div></div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 2500);
+        }
+
+        function nextChat() {
+            clearInterval(timerInterval);
+            document.getElementById('chatScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+            document.getElementById('messagesContainer').innerHTML = `<div class="text-center my-2"><span id="txtConnectedMsg" class="bg-slate-900/80 border border-slate-800 text-[10px] text-slate-400 px-3 py-1 rounded-full">تە پێکڤە گرێدان چێکر! ب خێر بایی بێن.</span></div>`;
+        }
+
+        function reportUser() {
+            alert("سوپاس! ڕاپۆرتا تە هاتە وەرگرتن و چات هاتە گرتن.");
+            nextChat();
+        }
+    </script>
+</body>
+</html>
 
